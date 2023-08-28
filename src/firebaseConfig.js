@@ -8,6 +8,8 @@ import {
   GoogleAuthProvider,
   sendPasswordResetEmail
 } from "firebase/auth"
+import { getFirestore } from "firebase/firestore"
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCDFr57BDceUmUTjRhzoGO3BM6VsPf8vrU",
@@ -21,11 +23,18 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// <--- Services --->
+// <------ Services ------>
 
 // Auth
 
 const auth = getAuth(app)
+
+// Database
+
+export const db = getFirestore(app)
+
+// Storage
+
 
 // Login
 
@@ -62,7 +71,7 @@ const googleProvider = new GoogleAuthProvider()
 export const googleLogin = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider)
-    return res 
+    return res
   } catch (error) {
     console.log(error)
   }
@@ -73,12 +82,8 @@ export const googleLogin = async () => {
 export const forgotPassword = async (email) => {
   try {
     const res = await sendPasswordResetEmail(auth, email)
-    return res 
+    return res
   } catch (error) {
     console.log(error)
   }
 }
-
-// Database
-
-// Storage
