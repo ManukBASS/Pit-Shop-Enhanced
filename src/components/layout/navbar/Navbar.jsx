@@ -11,20 +11,29 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { menuItems } from "../../../router/navigation";
+import { logout } from "../../../firebaseConfig";
 const drawerWidth = 200;
 
 function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleLogout = () => {
+    logout()
+    navigate("/login")
+    setMobileOpen(!mobileOpen);
+
+  }
 
   const drawer = (
     <div>
@@ -47,7 +56,7 @@ function Navbar(props) {
         })}
 
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={handleLogout}>
             <ListItemIcon>
               <LogoutIcon sx={{ color: "whitesmoke" }} />
             </ListItemIcon>
