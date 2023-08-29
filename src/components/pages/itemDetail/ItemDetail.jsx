@@ -7,10 +7,12 @@ import { CartContext } from "../../../context/CartContext";
 
 const ItemDetail = () => {
   const { id } = useParams();
+  const { addToCart, getQuantityById } = useContext(CartContext)
+  const quantity = getQuantityById(id)
   const [product, setProduct] = useState(null);
-  const [counter, setCounter] = useState(1);
+  const [counter, setCounter] = useState(quantity || 1);
 
-  const { addToCart } = useContext(CartContext)
+
 
   useEffect(() => {
     let refCollection = collection(db, "products");
@@ -62,6 +64,13 @@ const ItemDetail = () => {
           />
         </div>
       )}
+
+      {
+        quantity && <h6>You have {quantity} in your cart</h6>
+      }
+      {
+        product?.stock === quantity && <h6>You maxed out this item</h6>
+      }
 
       <Box sx={{display: "flex", alignItems: "center", gap: "1rem"}}>
         <Button variant="contained" size="small" onClick={removeOne}>-</Button>
