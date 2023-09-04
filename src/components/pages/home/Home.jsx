@@ -1,6 +1,11 @@
+import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import { Image } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import TypeIt from "typeit";
+import TeamRadioBox from "../../teamRadio/TeamRadioBox";
 
 const Home = () => {
-
   // const products = [
   //   {
   //     title: "Ferrari T-shirt",
@@ -12,11 +17,12 @@ const Home = () => {
   //   }
   // ]
 
-
   return (
-    <div>
-      <h1>Este es el home</h1>
-    </div>
+    <>
+      <Box>
+        <Image width={"100%"} src="/public/images/Landing_Ferrari_2021v2.jpg" />
+      </Box>
+    </>
   );
 };
 

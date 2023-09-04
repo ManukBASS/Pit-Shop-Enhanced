@@ -10,6 +10,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+
 
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Navbar.css";
@@ -22,18 +24,17 @@ const drawerWidth = 200;
 function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleLogout = () => {
-    logout()
-    navigate("/login")
+    logout();
+    navigate("/login");
     setMobileOpen(!mobileOpen);
-
-  }
+  };
 
   const drawer = (
     <div>
@@ -80,14 +81,23 @@ function Navbar(props) {
         position="fixed"
         sx={{
           width: "100%",
+          backgroundColor: "#BC5449"
         }}
       >
         <Toolbar
           sx={{ gap: "20px", display: "flex", justifyContent: "space-between" }}
         >
-          <Link to="/" style={{ color: "whitesmoke" }}>
-            Bazar-deco
+          <Link to="/">
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: ".5rem" }}>
+              <img
+                src="/public/images/logo.png"
+                alt="Logo"
+                style={{ width: "4rem" }}
+              />
+              <Typography variant="subtitle1" color="white">Pit-Shop</Typography>
+            </Box>
           </Link>
+
           <IconButton
             color="secondary.primary"
             aria-label="open drawer"
@@ -113,7 +123,7 @@ function Navbar(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              backgroundColor: "#1976d2",
+              backgroundColor: "#BC5449",
             },
           }}
         >
