@@ -6,7 +6,7 @@ import { Button, Typography } from "@mui/material";
 
 const Checkout = () => {
   const { cart } = useContext(CartContext);
-  initMercadoPago("APP_USR-602709f8-9f3a-4935-935f-d0371d49525a", {
+  initMercadoPago(import.meta.env.VITE_PUBLICKEY, {
     locale: "en-US",
   });
 

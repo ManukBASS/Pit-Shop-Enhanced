@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <>
       <Box>
-        <Image width={"100%"} src="/public/images/Landing_Ferrari_2021v2.jpg" />
+        <Image width={"100%"} src="/images/Landing_Ferrari_2021v2.jpg" />
       </Box>
     </>
   );

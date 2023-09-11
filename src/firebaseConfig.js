@@ -12,12 +12,12 @@ import { getFirestore } from "firebase/firestore"
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCDFr57BDceUmUTjRhzoGO3BM6VsPf8vrU",
-  authDomain: "pit-shop-ecommerce.firebaseapp.com",
-  projectId: "pit-shop-ecommerce",
-  storageBucket: "pit-shop-ecommerce.appspot.com",
-  messagingSenderId: "1057728289509",
-  appId: "1:1057728289509:web:234872b165f9f2033dd20c"
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTH,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGE,
+  messagingSenderId: import.meta.env.VITE_MESSAGIN,
+  appId: import.meta.env.VITE_APPID
 };
 
 // Initialize Firebase

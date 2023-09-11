@@ -90,7 +90,7 @@ function Navbar(props) {
           <Link to="/">
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: ".5rem" }}>
               <img
-                src="/public/images/logo.png"
+                src="/images/logo.png"
                 alt="Logo"
                 style={{ width: "4rem" }}
               />
