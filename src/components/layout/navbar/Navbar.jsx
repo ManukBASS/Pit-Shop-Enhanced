@@ -11,20 +11,24 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { menuItems } from "../../../router/navigation";
 import { logout } from "../../../firebaseConfig";
+import { AuthContext } from "../../../context/AuthContext";
 const drawerWidth = 200;
 
 function Navbar(props) {
+  const { logOutContext, user } = useContext(AuthContext);
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+
+  const roleAdmin = import.meta.env.VITE_ROLE_ADMIN;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -32,6 +36,7 @@ function Navbar(props) {
 
   const handleLogout = () => {
     logout();
+    logOutContext();
     navigate("/login");
     setMobileOpen(!mobileOpen);
   };
@@ -55,6 +60,22 @@ function Navbar(props) {
             </Link>
           );
         })}
+
+        {user.rol === roleAdmin && (
+          <Link to={"/dashboard"}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <DashboardIcon sx={{ color: "whitesmoke" }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Dashboard"}
+                  sx={{ color: "whitesmoke" }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        )}
 
         <ListItem disablePadding>
           <ListItemButton onClick={handleLogout}>
@@ -81,20 +102,29 @@ function Navbar(props) {
         position="fixed"
         sx={{
           width: "100%",
-          backgroundColor: "#BC5449"
+          backgroundColor: "#BC5449",
         }}
       >
         <Toolbar
           sx={{ gap: "20px", display: "flex", justifyContent: "space-between" }}
         >
           <Link to="/">
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: ".5rem" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: ".5rem",
+              }}
+            >
               <img
                 src="/images/logo.png"
                 alt="Logo"
                 style={{ width: "4rem" }}
               />
-              <Typography variant="subtitle1" color="white">Pit-Shop</Typography>
+              <Typography variant="subtitle1" color="white">
+                Pit-Shop
+              </Typography>
             </Box>
           </Link>
 

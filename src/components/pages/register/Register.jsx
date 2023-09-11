@@ -13,7 +13,8 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signUp } from "../../../firebaseConfig";
+import { signUp, db } from "../../../firebaseConfig";
+import { setDoc, doc } from "firebase/firestore";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -30,7 +31,10 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await signUp(userCredentials)
+    let res = await signUp(userCredentials)
+    if(res.user.uid){
+      await setDoc(doc(db, "users", res.user.uid), {rol: "user"})
+    }
     navigate("/login")
   }
 

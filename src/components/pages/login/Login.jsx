@@ -15,10 +15,16 @@ import GoogleIcon from "@mui/icons-material/Google";
 
 import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
-import { googleLogin, onSignIn } from "../../../firebaseConfig";
+import { useContext, useState } from "react";
+import { db, googleLogin, onSignIn } from "../../../firebaseConfig";
+import { collection, doc, getDoc } from "firebase/firestore"
+import { AuthContext } from "../../../context/AuthContext";
+
 
 const Login = () => {
+
+  const {handleLogIn} = useContext(AuthContext)
+
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -38,6 +44,16 @@ const Login = () => {
     try {
       const res = await onSignIn(userCredentials)
       if(res.user){
+        const userCollection = collection(db, "users")
+        const userRef = doc(userCollection, res.user.uid)
+        const userDoc = await getDoc(userRef)
+        let finalUser = {
+          email: res.user.email,
+          rol: userDoc.data().rol
+        }
+
+        handleLogIn(finalUser)
+
         navigate("/")
       }
     } catch (error) {

@@ -1,16 +1,19 @@
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./router/AppRouter";
 import CartContextComponent from "./context/CartContext";
-import {NextUIProvider} from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
+import AuthContextComponent from "./context/AuthContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <CartContextComponent>
-        <NextUIProvider>
-          <AppRouter />
-        </NextUIProvider>
-      </CartContextComponent>
+      <AuthContextComponent>
+        <CartContextComponent>
+          <NextUIProvider>
+            <AppRouter />
+          </NextUIProvider>
+        </CartContextComponent>
+      </AuthContextComponent>
     </BrowserRouter>
   );
 }
