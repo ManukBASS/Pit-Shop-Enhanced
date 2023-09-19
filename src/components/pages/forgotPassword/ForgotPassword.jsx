@@ -1,4 +1,15 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  CssBaseline,
+  Grid,
+  Paper,
+  TextField,
+  ThemeProvider,
+  Typography,
+  createTheme,
+} from "@mui/material";
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -6,67 +17,87 @@ import { forgotPassword } from "../../../firebaseConfig";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#BC5449",
+      },
+    },
+  });
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await forgotPassword(email)
-    navigate("/login")
-  }
+    e.preventDefault();
+    await forgotPassword(email);
+    navigate("/login");
+  };
 
   return (
-    <div>
-      <Box
-        sx={{
-          width: "100%",
-          minHeight: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          gap: "40px",
-          // backgroundColor: theme.palette.secondary.main,
-        }}
-      >
-        <Typography variant="h5" color={"primary"}>
-          ¿Olvidaste tu contraseña?
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid
-            container
-            rowSpacing={2}
-            // alignItems="center"
-            justifyContent={"center"}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage:
+              "url(https://source.unsplash.com/random?formula-1)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 20,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <Grid item xs={10} md={12}>
+            <Avatar src="/public/favicon.ico" sx={{ m: 1 }} />
+            <Typography component="h1" variant="h5">
+              ¿Forgot your password?
+            </Typography>
+            <form onSubmit={handleSubmit}>
               <TextField
-                type="text"
-                variant="outlined"
+                name="email"
                 label="Email"
                 fullWidth
-                name="email"
-                onChange={(e)=>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
+                margin="normal"
+                required
+                sx={{ mt: "1.5rem" }}
               />
-            </Grid>
-            <Grid item xs={10} md={12}>
-              <Button type="submit" variant="contained" fullWidth>
-                Recuperar
-              </Button>
-            </Grid>
-            <Grid item xs={10} md={12}>
               <Button
                 type="submit"
-                variant="contained"
                 fullWidth
-                onClick={() => navigate("/login")}
+                variant="contained"
+                sx={{ mt: 2, mb: 2 }}
               >
-                Regresar
+                Recover
               </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-    </div>
+              <Grid container>
+                <Grid item>
+                  <Button onClick={() => navigate("/login")} size="small">
+                    {"Back to Login"}
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 
