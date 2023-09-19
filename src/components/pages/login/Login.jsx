@@ -1,196 +1,186 @@
 import {
+  Avatar,
   Box,
   Button,
-  FormControl,
+  CssBaseline,
   Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
+  Paper,
   TextField,
-  Tooltip,
+  ThemeProvider,
   Typography,
+  createTheme,
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
-
-import { Link, useNavigate } from "react-router-dom";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { db, googleLogin, onSignIn } from "../../../firebaseConfig";
-import { collection, doc, getDoc } from "firebase/firestore"
+import { collection, doc, getDoc } from "firebase/firestore";
 import { AuthContext } from "../../../context/AuthContext";
 
+// TO-DO: Check Google Login
 
 const Login = () => {
+  const { handleLogIn } = useContext(AuthContext);
 
-  const {handleLogIn} = useContext(AuthContext)
-
+  // eslint-disable-next-line no-unused-vars
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   const [userCredentials, setUserCredentials] = useState({
     email: "",
-    password: ""
-  })
+    password: "",
+  });
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#BC5449",
+      },
+    },
+  });
 
   const handleChange = (e) => {
-    setUserCredentials({...userCredentials, [e.target.name]: e.target.value})
-  }
+    setUserCredentials({ ...userCredentials, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const res = await onSignIn(userCredentials)
-      if(res.user){
-        const userCollection = collection(db, "users")
-        const userRef = doc(userCollection, res.user.uid)
-        const userDoc = await getDoc(userRef)
+      const res = await onSignIn(userCredentials);
+      if (res.user) {
+        const userCollection = collection(db, "users");
+        const userRef = doc(userCollection, res.user.uid);
+        const userDoc = await getDoc(userRef);
         let finalUser = {
           email: res.user.email,
-          rol: userDoc.data().rol
-        }
+          rol: userDoc.data().rol,
+        };
 
-        handleLogIn(finalUser)
+        handleLogIn(finalUser);
 
-        navigate("/")
+        navigate("/");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handleGoogleSignIn = async () => {
     try {
-      const res = await googleLogin()
-      return res    
+      const res = await googleLogin();
+      return res;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        // backgroundColor: theme.palette.secondary.main,
-      }}
-    >
-      <form onSubmit={handleSubmit}>
+    <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Grid container component="main" sx={{ height: "100vh" }}>
         <Grid
-          container
-          rowSpacing={2}
-          // alignItems="center"
-          justifyContent={"center"}
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage:
+              "url(https://source.unsplash.com/random?formula-1)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
         >
-          <Grid item xs={10} md={12}>
-            <TextField name="email" label="Email" fullWidth onChange={handleChange} />
-          </Grid>
-          <Grid item xs={10} md={12}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-password">
-                Contraseña
-              </InputLabel>
-              <OutlinedInput
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar src="/public/favicon.ico" sx={{ m: 1 }} />
+            <Typography component="h1" variant="h5">
+              Welcome to our shop
+            </Typography>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                name="email"
+                label="Email"
+                fullWidth
+                onChange={handleChange}
+                margin="normal"
+                required
+              />
+              <TextField
                 name="password"
                 onChange={handleChange}
                 id="outlined-adornment-password"
                 type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? (
-                        <VisibilityOff color="primary" />
-                      ) : (
-                        <Visibility color="primary" />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Contraseña"
+                required
+                margin="normal"
+                fullWidth
+                label="Password"
               />
-            </FormControl>
-          </Grid>
-          <Link
-            to="/forgot-password"
-            style={{ color: "steelblue", marginTop: "10px" }}
-          >
-            ¿Olvidaste tu contraseña?
-          </Link>
-          <Grid container justifyContent="center" spacing={3} mt={2}>
-            <Grid item xs={10} md={5}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
               <Button
                 variant="contained"
+                startIcon={<GoogleIcon />}
+                onClick={handleGoogleSignIn}
+                type="button"
                 fullWidth
-                type="submit"
                 sx={{
                   color: "white",
                   textTransform: "none",
-                  textShadow: "2px 2px 2px grey",
+                  mb: 3,
                 }}
               >
-                Ingresar
+                Sign In with Google
               </Button>
-            </Grid>
-            <Grid item xs={10} md={5}>
-              <Tooltip title="ingresa con google">
-                <Button
-                  variant="contained"
-                  startIcon={<GoogleIcon />}
-                  onClick={handleGoogleSignIn}
-                  type="button"
-                  fullWidth
-                  sx={{
-                    color: "white",
-                    textTransform: "none",
-                    textShadow: "2px 2px 2px grey",
-                  }}
-                >
-                  Ingresa con google
-                </Button>
-              </Tooltip>
-            </Grid>
-            <Grid item xs={10} md={8}>
-              <Typography
-                color={"secondary.primary"}
-                variant={"h6"}
-                mt={1}
-                align="center"
-              >
-                ¿Aun no tienes cuenta?
-              </Typography>
-            </Grid>
-            <Grid item xs={10} md={5}>
-              <Tooltip title="ingresa con google">
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={()=>navigate("/register")}
-                  type="button"
-                  sx={{
-                    color: "white",
-                    textTransform: "none",
-                    textShadow: "2px 2px 2px grey",
-                  }}
-                >
-                  Registrate
-                </Button>
-              </Tooltip>
-            </Grid>
-          </Grid>
+              <Grid container>
+                <Grid item xs>
+                  <Button
+                    onClick={() => navigate("/forgot-password")}
+                    size="small"
+                  >
+                    Forgot password?
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button onClick={() => navigate("/register")} size="small">
+                    {"Don't have an account? Create One"}
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Box>
         </Grid>
-      </form>
-    </Box>
+      </Grid>
+    </ThemeProvider>
+    </ThemeProvider>
   );
 };
 
