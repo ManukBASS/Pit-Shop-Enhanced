@@ -1,16 +1,16 @@
 import {
+  Avatar,
   Box,
   Button,
-  FormControl,
+  CssBaseline,
   Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
+  Paper,
   TextField,
+  ThemeProvider,
+  Typography,
+  createTheme,
 } from "@mui/material";
 
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signUp, db } from "../../../firebaseConfig";
@@ -18,12 +18,22 @@ import { setDoc, doc } from "firebase/firestore";
 
 const Register = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
   const [showPassword, setShowPassword] = useState(false);
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: "",
     confirmPassword: ""
   })
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#BC5449",
+      },
+    },
+  });
+
 
   const handleChange = (e) => {
     setUserCredentials({...userCredentials, [e.target.name]: e.target.value})
@@ -38,117 +48,98 @@ const Register = () => {
     navigate("/login")
   }
 
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-
   return (
-    <Box
-      sx={{
-        width: "100%",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        // backgroundColor: theme.palette.secondary.main,
-      }}
-    >
-      <form onSubmit={handleSubmit}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Grid container component="main" sx={{ height: "100vh" }}>
         <Grid
-          container
-          rowSpacing={2}
-          // alignItems="center"
-          justifyContent={"center"}
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage:
+              "url(https://source.unsplash.com/random?formula-1)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
         >
-          <Grid item xs={10} md={12}>
-            <TextField name="email" label="Email" fullWidth onChange={handleChange} />
-          </Grid>
-          <Grid item xs={10} md={12}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-password">
-                Contraseña
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar src="/public/favicon.ico" sx={{ m: 1 }} />
+            <Typography component="h1" variant="h5">
+              Create your account
+            </Typography>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                name="email"
+                label="Email"
+                fullWidth
+                onChange={handleChange}
+                margin="normal"
+                required
+              />
+              <TextField
                 name="password"
                 onChange={handleChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? (
-                        <VisibilityOff color="primary" />
-                      ) : (
-                        <Visibility color="primary" />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Contraseña"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={10} md={12}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-password">
-                Confirmar contraseña
-              </InputLabel>
-              <OutlinedInput
                 id="outlined-adornment-password"
-                onChange={handleChange}
                 type={showPassword ? "text" : "password"}
-                name="confirmPassword"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? (
-                        <VisibilityOff color="primary" />
-                      ) : (
-                        <Visibility color="primary" />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Confirmar contraseña"
+                required
+                margin="normal"
+                fullWidth
+                label="Password"
               />
-            </FormControl>
-          </Grid>
-          <Grid container justifyContent="center" spacing={3} mt={2}>
-            <Grid item xs={10} md={7}>
-              <Button
-                variant="contained"
+              <TextField
+                name="confirmPassword"
+                onChange={handleChange}
+                id="outlined-adornment-confirm-password"
+                type={showPassword ? "text" : "password"}
+                required
+                margin="normal"
                 fullWidth
+                label="Confirm Password"
+              />
+              <Button
                 type="submit"
-                sx={{
-                  color: "white",
-                  textTransform: "none",
-                  textShadow: "2px 2px 2px grey",
-                }}
-              >
-                Registrarme
-              </Button>
-            </Grid>
-            <Grid item xs={10} md={7}>
-              <Button
-                variant="contained"
                 fullWidth
-                onClick={() => navigate("/login")}
-                type="button"
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
               >
-                Regresar
+                Register
               </Button>
-            </Grid>
-          </Grid>
+              <Grid container>
+                <Grid item>
+                  <Button onClick={() => navigate("/login")} size="small">
+                    {"Already have an account? Sign In"}
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Box>
         </Grid>
-      </form>
-    </Box>
+      </Grid>
+    </ThemeProvider>
   );
 };
 

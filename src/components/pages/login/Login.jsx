@@ -77,7 +77,6 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <ThemeProvider theme={theme}>
       <CssBaseline />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <Grid
@@ -179,7 +178,6 @@ const Login = () => {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
     </ThemeProvider>
   );
 };
