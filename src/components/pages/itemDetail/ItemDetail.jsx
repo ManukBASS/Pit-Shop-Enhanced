@@ -2,9 +2,20 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { db } from "../../../firebaseConfig";
 import { getDoc, collection, doc } from "firebase/firestore";
-import { Alert, Box, Button, Container, Grid, Paper, Snackbar, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Snackbar,
+  Typography,
+} from "@mui/material";
 import { CartContext } from "../../../context/CartContext";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+// TO-DO: ADD Skeleton
 
 const ItemDetail = () => {
   const { id } = useParams();
@@ -13,11 +24,11 @@ const ItemDetail = () => {
   const [product, setProduct] = useState(null);
   const [counter, setCounter] = useState(quantity || 1);
   const [open, setOpen] = useState(false);
-  const [openBuy, setOpenBuy] = useState(false)
+  const [openBuy, setOpenBuy] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleClose = (reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -25,7 +36,7 @@ const ItemDetail = () => {
   };
 
   const handleCloseBuy = (reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -75,8 +86,8 @@ const ItemDetail = () => {
       quantity: counter,
     };
     addToCart(obj);
-    setOpenBuy(true)
-    setMessage("Product added to cart successfully!")
+    setOpenBuy(true);
+    setMessage("Product added to cart successfully!");
   };
 
   return (
@@ -155,16 +166,32 @@ const ItemDetail = () => {
           </Grid>
         </Grid>
         <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-          <Alert variant="filled" onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          <Alert
+            variant="filled"
+            onClose={handleClose}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
             {message}
           </Alert>
         </Snackbar>
-        <Snackbar open={openBuy} autoHideDuration={4000} onClose={handleCloseBuy}>
-          <Alert variant="filled" onClose={handleCloseBuy} severity="success" sx={{ width: "100%" }}>
+        <Snackbar
+          open={openBuy}
+          autoHideDuration={4000}
+          onClose={handleCloseBuy}
+        >
+          <Alert
+            variant="filled"
+            onClose={handleCloseBuy}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
             {message}
           </Alert>
         </Snackbar>
       </Container>
+
+      {/* TO-DO: Use SwipperJs to create a carrousel with testimonies */}
     </ThemeProvider>
   );
 };

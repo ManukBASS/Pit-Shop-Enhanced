@@ -1,36 +1,72 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../../../context/CartContext";
-import Card from "@mui/material/Card";
-import Box from "@mui/material/Box"
+import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import CardItemCart from "../../card/CardItemCart";
+import { Alert, Snackbar, Typography } from "@mui/material";
+
+// TO-DO: Add Skeleton | Render Checkout
 
 const Cart = () => {
-  const { cart, clearCart, deleteById, getTotalPrice } = useContext(CartContext);
+  const { cart, clearCart, deleteById, getTotalPrice } =
+    useContext(CartContext);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
 
-  let total = getTotalPrice()
+  const handleClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const clearShoppingCart = () => {
+    clearCart()
+    setOpen(true)
+    setMessage("Your shopping cart has been cleared !")
+  }
+
+  let total = getTotalPrice();
 
   return (
-    <div>
-      <h1>Cart</h1>
-      {
-        cart.length > 0 && <Button variant="outlined"><Link to="/checkout">Start Checkout</Link></Button>
-      }
-      {cart.map((product) => {
-        return (
-          // <Card key={product.id}>
-          //   <Box></Box>
-          // </Card>
-          <div key={product.id} style={{width: "12.5rem", border: "1px solid red"}}>
-            <h6>{product.title}</h6>
-            <h6>{product.quantity}</h6>
-            <button onClick={() => deleteById(product.id)}>Delete</button>
-          </div>
-        );
-      })}
-      <h5>Final amount: ${total}</h5>
-      <button onClick={clearCart}>Clean cart</button>
-    </div>
+    <Box>
+      <Typography variant="h4" component="div">
+        Your Cart
+      </Typography>
+      {cart.map((product) => (
+        <CardItemCart
+          key={product.id}
+          product={product}
+          deleteById={deleteById}
+        />
+      ))}
+      {cart.length > 0 && (
+        <Button
+          sx={{ mt: "2rem" }}
+          variant="outlined"
+          component={Link}
+          to="/checkout"
+        >
+          Start Checkout
+        </Button>
+      )}
+      <Typography variant="h6">Final amount: ${total}</Typography>
+      <Button variant="outlined" onClick={clearShoppingCart}>
+        Clean cart
+      </Button>
+      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+        <Alert
+          variant="filled"
+          onClose={handleClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 };
 
