@@ -69,7 +69,7 @@ const Checkout = () => {
 
     try {
       let response = await axios.post(
-        "http://localhost:8080/create_preference",
+        "https://pit-shop-backend-qmnxcd6gh-manukbass.vercel.app/create_preference",
         {
           items: newArr,
           shipment_cost: 10,

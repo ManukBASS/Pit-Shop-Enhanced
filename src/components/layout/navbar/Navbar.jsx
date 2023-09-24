@@ -83,7 +83,7 @@ function Navbar(props) {
               <LogoutIcon sx={{ color: "whitesmoke" }} />
             </ListItemIcon>
             <ListItemText
-              primary={"Cerrar sesion"}
+              primary={"Log Out"}
               sx={{ color: "whitesmoke" }}
             />
           </ListItemButton>

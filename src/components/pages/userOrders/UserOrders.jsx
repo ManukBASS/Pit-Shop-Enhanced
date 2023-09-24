@@ -9,13 +9,10 @@ const UserOrders = () => {
 
   useEffect(() => {
     const ordersCollection = collection(db, "orders");
-    let ordersFiltered = query(
-      ordersCollection,
-      where("email", "==", user.email)
-    );
+    let ordersFiltered = query(ordersCollection, where("email", "==", user.email));
     getDocs(ordersFiltered)
       .then((res) => {
-        const newArr = res.docs.map((order) => {
+        const newArr = res.docs.map(order => {
           return { ...order.data(), id: order.id };
         });
         setMyOrders(newArr);
