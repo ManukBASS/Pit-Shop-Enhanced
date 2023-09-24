@@ -69,7 +69,12 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     try {
       const res = await googleLogin();
-      return res;
+      let finalUser = {
+        email: res.user.email,
+        rol: "user",
+      };
+      handleLogIn(finalUser)
+      navigate("/")
     } catch (error) {
       console.log(error);
     }
