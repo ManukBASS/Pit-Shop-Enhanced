@@ -10,6 +10,7 @@ const Policies = () => {
       <Grid item xs={12} sm={4}>
         <Card
           sx={{
+            p: '.5rem',
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -53,6 +54,7 @@ const Policies = () => {
       <Grid item xs={12} sm={4}>
         <Card
           sx={{
+            p: '.5rem',
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -96,6 +98,7 @@ const Policies = () => {
       <Grid item xs={12} sm={4}>
         <Card
           sx={{
+            p: '.5rem',
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",

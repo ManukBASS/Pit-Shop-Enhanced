@@ -10,6 +10,7 @@ const Home = () => {
               component='video'
               image={"/public/videos/“No Ordinary Sport” - a Formula 1 edit.mp4"}
               autoPlay
+              loop
               muted
               sx={{ width: '100%'}}
           />

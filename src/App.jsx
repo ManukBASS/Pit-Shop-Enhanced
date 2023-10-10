@@ -3,6 +3,7 @@ import AppRouter from "./router/AppRouter";
 import CartContextComponent from "./context/CartContext";
 import { NextUIProvider } from "@nextui-org/react";
 import AuthContextComponent from "./context/AuthContext";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <CartContextComponent>
           <NextUIProvider>
             <AppRouter />
+            <Footer />
           </NextUIProvider>
         </CartContextComponent>
       </AuthContextComponent>
