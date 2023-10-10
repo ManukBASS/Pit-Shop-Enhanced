@@ -10,6 +10,9 @@ import {
 } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { v4 } from "uuid";
+
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
@@ -34,6 +37,7 @@ const auth = getAuth(app)
 export const db = getFirestore(app)
 
 // Storage
+const storage = getStorage(app)
 
 
 // Login
@@ -66,11 +70,11 @@ export const logout = () => {
 
 // Google Login
 
-const googleProvider = new GoogleAuthProvider()
+let googleProvider = new GoogleAuthProvider()
 
 export const googleLogin = async () => {
   try {
-    const res = await signInWithPopup(auth, googleProvider)
+    let res = await signInWithPopup(auth, googleProvider)
     return res
   } catch (error) {
     console.log(error)
@@ -86,4 +90,13 @@ export const forgotPassword = async (email) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+// Storage
+
+export const uploadFile = async (file)=>{
+  const storageRef = ref( storage, v4() )
+  await uploadBytes(storageRef, file)
+  let url = await getDownloadURL(storageRef)
+  return url
 }

@@ -26,7 +26,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: "",
