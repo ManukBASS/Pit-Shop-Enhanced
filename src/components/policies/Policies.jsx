@@ -30,7 +30,7 @@ const Policies = () => {
           <CardMedia
             component="img"
             sx={{ width: "5rem" }}
-            image="/public/images/credit-card.png"
+            image="/images/credit-card.png"
             alt="Imagen 3"
           />
           <CardContent>
@@ -74,7 +74,7 @@ const Policies = () => {
           <CardMedia
             component="img"
             sx={{ width: "5rem" }}
-            image="/public/images/security.png"
+            image="/images/security.png"
             alt="Imagen 3"
           />
           <CardContent>
@@ -118,7 +118,7 @@ const Policies = () => {
           <CardMedia
             component="img"
             sx={{ width: "5rem" }}
-            image="/public/images/delivery.png"
+            image="/images/delivery.png"
             alt="Imagen 3"
           />
           <CardContent>

@@ -6,7 +6,7 @@ const Home = () => {
     <>
       <Box sx={{mb: '5rem'}}>
           <video autoPlay loop muted style={{width: '100%', borderRadius: '10px'}}>
-            <source src="/public/videos/“No Ordinary Sport” - a Formula 1 edit.mp4"/>
+            <source src="/videos/“No Ordinary Sport” - a Formula 1 edit.mp4"/>
           </video>
       </Box>
       <Policies/>
