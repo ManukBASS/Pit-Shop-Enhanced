@@ -81,52 +81,53 @@ const ProductsForm = ({
           display: "flex",
           flexDirection: "column",
           gap: "20px",
+          borderRadius: "5px",
         }}
       >
         <TextField
           variant="outlined"
           defaultValue={productSelected?.title}
-          label="nombre"
+          label="Name"
           name="title"
           onChange={handleChange}
         />
         <TextField
           variant="outlined"
           defaultValue={productSelected?.description}
-          label="descripcion"
+          label="Description"
           name="description"
           onChange={handleChange}
         />
         <TextField
           variant="outlined"
           defaultValue={productSelected?.unit_price}
-          label="precio"
+          label="Price"
           name="unit_price"
           onChange={handleChange}
         />
         <TextField
           variant="outlined"
           defaultValue={productSelected?.stock}
-          label="stock"
+          label="Stock"
           name="stock"
           onChange={handleChange}
         />
         <TextField
           variant="outlined"
           defaultValue={productSelected?.category}
-          label="categoria"
+          label="Category"
           name="category"
           onChange={handleChange}
         />
         <TextField type="file" onChange={(e) => setFile(e.target.files[0])} />
         {file && (
           <Button onClick={handleImage} type="button">
-            Cargar imagen
+            Load Image
           </Button>
         )}
         {file && !isLoading && (
           <Button variant="contained" type="submit">
-            {productSelected ? "modificar" : "crear"}
+            {productSelected ? "Modify" : "Create"}
           </Button>
         )}
       </form>

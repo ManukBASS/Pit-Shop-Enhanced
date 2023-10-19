@@ -5,7 +5,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, IconButton } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  Skeleton,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { db } from "../../../firebaseConfig";
@@ -27,6 +33,14 @@ const style = {
   p: 4,
 };
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#BC5449",
+    },
+  },
+});
+
 const ProductsList = ({ products, setIsChange }) => {
   const [open, setOpen] = useState(false);
   const [productSelected, setProductSelected] = useState(null);
@@ -47,79 +61,115 @@ const ProductsList = ({ products, setIsChange }) => {
 
   return (
     <div>
-      <Button variant="contained" onClick={() => handleOpen(null)}>
-        Add New
-      </Button>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">id</TableCell>
-              <TableCell align="left">titulo</TableCell>
-              <TableCell align="left">precio</TableCell>
-              <TableCell align="left">stock</TableCell>
-              <TableCell align="left">imagen</TableCell>
-              <TableCell align="left">categoria</TableCell>
-              <TableCell align="left">acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {products.map((product) => (
-              <TableRow
-                key={product.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row" align="left">
-                  {product.id}
-                </TableCell>
-                <TableCell component="th" scope="row" align="left">
-                  {product.title}
-                </TableCell>
-                <TableCell component="th" scope="row" align="left">
-                  {product.unit_price}
-                </TableCell>
-                <TableCell component="th" scope="row" align="left">
-                  {product.stock}
-                </TableCell>
-                <TableCell component="th" scope="row" align="left">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    style={{ width: "80px", height: "80px" }}
-                  />
-                </TableCell>
-                <TableCell component="th" scope="row" align="left">
-                  {product.category}
-                </TableCell>
-                <TableCell component="th" scope="row" align="left">
-                  <IconButton onClick={() => handleOpen(product)}>
-                    <EditIcon color="primary" />
-                  </IconButton>
-                  <IconButton onClick={() => deleteProduct(product.id)}>
-                    <DeleteForeverIcon color="primary" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <ProductsForm
-            handleClose={handleClose}
-            setIsChange={setIsChange}
-            productSelected={productSelected}
-            setProductSelected={setProductSelected}
-          />
+      <ThemeProvider theme={theme}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mb: "1rem" }}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => handleOpen(null)}
+          >
+            Add New
+          </Button>
         </Box>
-      </Modal> */}
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">ID</TableCell>
+                <TableCell align="left">Title</TableCell>
+                <TableCell align="left">Price</TableCell>
+                <TableCell align="left">Stock</TableCell>
+                <TableCell align="left">Image</TableCell>
+                <TableCell align="left">Category</TableCell>
+                <TableCell align="left">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {products.length === 0 ? (
+                // Mostrar el esqueleto de la tabla cuando no hay datos
+                <TableRow>
+                  <TableCell>
+                    <Skeleton height={80} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={80} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={80} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={80} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={80} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={80} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={80} />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                // Renderizar la tabla con datos reales cuando existan productos
+                products.map((product) => (
+                  <TableRow
+                    key={product.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row" align="left">
+                      {product.id}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="left">
+                      {product.title}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="left">
+                      {product.unit_price}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="left">
+                      {product.stock}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="left">
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        style={{ width: "80px", height: "80px" }}
+                      />
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="left">
+                      {product.category}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="left">
+                      <IconButton onClick={() => handleOpen(product)}>
+                        <EditIcon color="action" />
+                      </IconButton>
+                      <IconButton onClick={() => deleteProduct(product.id)}>
+                        <DeleteForeverIcon color="error" />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <ProductsForm
+              handleClose={handleClose}
+              setIsChange={setIsChange}
+              productSelected={productSelected}
+              setProductSelected={setProductSelected}
+            />
+          </Box>
+        </Modal>
+      </ThemeProvider>
     </div>
   );
 };
