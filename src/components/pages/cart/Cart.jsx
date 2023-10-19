@@ -23,10 +23,10 @@ const Cart = () => {
   };
 
   const clearShoppingCart = () => {
-    clearCart()
-    setOpen(true)
-    setMessage("Your shopping cart has been cleared !")
-  }
+    clearCart();
+    setOpen(true);
+    setMessage("Your shopping cart has been cleared !");
+  };
 
   let total = getTotalPrice();
 
@@ -42,20 +42,19 @@ const Cart = () => {
           deleteById={deleteById}
         />
       ))}
-      {cart.length > 0 && (
-        <Button
-          sx={{ mt: "2rem" }}
-          variant="outlined"
-          component={Link}
-          to="/checkout"
-        >
-          Start Checkout
+      <Typography sx={{ mt: "2rem" }} variant="h6">
+        Final amount: ${total}
+      </Typography>
+      <Box sx={{ display: "flex", gap: "1rem", mt: "1rem" }}>
+        <Button variant="outlined" onClick={clearShoppingCart}>
+          Clean Cart
         </Button>
-      )}
-      <Typography variant="h6">Final amount: ${total}</Typography>
-      <Button variant="outlined" onClick={clearShoppingCart}>
-        Clean cart
-      </Button>
+        {cart.length > 0 && (
+          <Button variant="outlined" component={Link} to="/checkout">
+            Start Checkout
+          </Button>
+        )}
+      </Box>
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
         <Alert
           variant="filled"

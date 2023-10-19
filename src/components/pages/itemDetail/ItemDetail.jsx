@@ -14,8 +14,7 @@ import {
 } from "@mui/material";
 import { CartContext } from "../../../context/CartContext";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-// TO-DO: ADD Skeleton
+import Skeleton from "@mui/material/Skeleton";
 
 const ItemDetail = () => {
   const { id } = useParams();
@@ -31,7 +30,6 @@ const ItemDetail = () => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
@@ -39,7 +37,6 @@ const ItemDetail = () => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpenBuy(false);
   };
 
@@ -100,17 +97,24 @@ const ItemDetail = () => {
         </Link>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            {product && (
+            {product ? (
               <img
                 src={product.image}
                 alt={product.title}
                 style={{ width: "100%", borderRadius: "10px" }}
               />
+            ) : (
+              <Skeleton
+                sx={{ borderRadius: "10px" }}
+                variant="rectangular"
+                width="100%"
+                height="500px"
+              />
             )}
           </Grid>
           <Grid item xs={12} md={6}>
-            {product && (
-              <Paper elevation={3} style={{ padding: "1rem" }}>
+            {product ? (
+              <Paper elevation={3} style={{ padding: "1rem", marginTop: "0" }}>
                 <Typography variant="h4" gutterBottom>
                   {product.title}
                 </Typography>
@@ -152,7 +156,7 @@ const ItemDetail = () => {
                     You have {quantity} in your cart
                   </Typography>
                 )}
-                {product?.stock === quantity && (
+                {product.stock === quantity && (
                   <Typography
                     variant="body2"
                     color="error"
@@ -162,6 +166,8 @@ const ItemDetail = () => {
                   </Typography>
                 )}
               </Paper>
+            ) : (
+              <Skeleton variant="text" height="400px" />
             )}
           </Grid>
         </Grid>
@@ -191,7 +197,7 @@ const ItemDetail = () => {
         </Snackbar>
       </Container>
 
-      {/* TO-DO: Use SwipperJs to create a carrousel with testimonies */}
+      {/* TO-DO: Use SwipperJs to create a carousel with testimonies */}
     </ThemeProvider>
   );
 };
