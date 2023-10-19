@@ -86,7 +86,6 @@ const ProductsList = ({ products, setIsChange }) => {
             </TableHead>
             <TableBody>
               {products.length === 0 ? (
-                // Mostrar el esqueleto de la tabla cuando no hay datos
                 <TableRow>
                   <TableCell>
                     <Skeleton height={80} />

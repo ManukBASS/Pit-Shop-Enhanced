@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Grid from "@mui/material/Grid";
 import CardItem from "../../card/CardItem";
-
+import { Typography } from "@mui/material";
 
 const ItemListContainter = () => {
   const [products, setProducts] = useState([]);
@@ -29,18 +29,25 @@ const ItemListContainter = () => {
   }, []);
 
   return (
-    <div>
-    <h1>Shop</h1>
-    <Box sx={{ p: "1rem", gap: "2rem", display: "flex" }}>
-      {loading
-        ? products.map((product) => (
+    <Box sx={{ p: "1rem" }}>
+      <Typography sx={{ mb: "1rem" }} variant="h4">
+        Shop
+      </Typography>
+      {loading ? (
+        <Grid container spacing={2}>
+          {products.map((product) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-              <Skeleton variant="rounded" width="100%" height="100%" />
+              <Skeleton variant="rectangular" width="100%" height={200} />
+              <Skeleton variant="text" width="100%" />
+              <Skeleton variant="text" width="100%" />
             </Grid>
-          ))
-        : products.map((product) => (
-            <Box key={product.id}>
-              <Link key={product.id} to={`/itemDetail/${product.id}`}>
+          ))}
+        </Grid>
+      ) : (
+        <Grid container spacing={2}>
+          {products.map((product) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+              <Link to={`/itemDetail/${product.id}`}>
                 <CardItem
                   image={product.image}
                   title={product.title}
@@ -48,13 +55,11 @@ const ItemListContainter = () => {
                   stock={product.stock}
                 />
               </Link>
-            </Box>
+            </Grid>
           ))}
-      {loading && (
-        <Skeleton variant="rounded" width="12.5rem" height="16.5rem" />
+        </Grid>
       )}
     </Box>
-  </div>
   );
 };
 
