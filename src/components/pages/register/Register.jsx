@@ -23,8 +23,8 @@ const Register = () => {
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: "",
-    confirmPassword: ""
-  })
+    confirmPassword: "",
+  });
 
   const theme = createTheme({
     palette: {
@@ -34,19 +34,18 @@ const Register = () => {
     },
   });
 
-
   const handleChange = (e) => {
-    setUserCredentials({...userCredentials, [e.target.name]: e.target.value})
-  }
+    setUserCredentials({ ...userCredentials, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    let res = await signUp(userCredentials)
-    if(res.user.uid){
-      await setDoc(doc(db, "users", res.user.uid), {rol: "user"})
+    e.preventDefault();
+    let res = await signUp(userCredentials);
+    if (res.user.uid) {
+      await setDoc(doc(db, "users", res.user.uid), { rol: "user" });
     }
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -69,15 +68,7 @@ const Register = () => {
             backgroundPosition: "center",
           }}
         />
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          md={5}
-          component={Paper}
-          elevation={6}
-          square
-        >
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -87,7 +78,7 @@ const Register = () => {
               alignItems: "center",
             }}
           >
-            <Avatar src="/public/favicon.ico" sx={{ m: 1 }} />
+            <Avatar src="favicon.ico" sx={{ m: 1 }} />
             <Typography component="h1" variant="h5">
               Create your account
             </Typography>

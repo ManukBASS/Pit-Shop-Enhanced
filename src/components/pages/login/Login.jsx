@@ -72,8 +72,8 @@ const Login = () => {
         email: res.user.email,
         rol: "user",
       };
-      handleLogIn(finalUser)
-      navigate("/")
+      handleLogIn(finalUser);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -100,15 +100,7 @@ const Login = () => {
             backgroundPosition: "center",
           }}
         />
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          md={5}
-          component={Paper}
-          elevation={6}
-          square
-        >
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -118,7 +110,7 @@ const Login = () => {
               alignItems: "center",
             }}
           >
-            <Avatar src="/public/favicon.ico" sx={{ m: 1 }} />
+            <Avatar src="favicon.ico" sx={{ m: 1 }} />
             <Typography component="h1" variant="h5">
               Welcome to our shop
             </Typography>

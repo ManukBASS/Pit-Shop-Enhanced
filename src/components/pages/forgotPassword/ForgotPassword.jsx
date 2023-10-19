@@ -64,7 +64,7 @@ const ForgotPassword = () => {
               alignItems: "center",
             }}
           >
-            <Avatar src="/public/favicon.ico" sx={{ m: 1 }} />
+            <Avatar src="favicon.ico" sx={{ m: 1 }} />
             <Typography component="h1" variant="h5">
               ¿Forgot your password?
             </Typography>
