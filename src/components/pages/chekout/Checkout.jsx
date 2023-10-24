@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../../context/CartContext";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
-import { Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { AuthContext } from "../../../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 import { db } from "../../../firebaseConfig";
@@ -20,7 +20,7 @@ const Checkout = () => {
   const { cart, getTotalPrice, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   initMercadoPago(import.meta.env.VITE_PUBLICKEY, {
-    locale: "es-AR",
+    locale: "en-EN",
   });
 
   const [orderId, setOrderId] = useState(null);
@@ -52,7 +52,7 @@ const Checkout = () => {
       });
 
       localStorage.removeItem("order");
-      clearCart()
+      clearCart();
     }
   }, [paramValue]);
 
@@ -103,40 +103,55 @@ const Checkout = () => {
   };
 
   return (
-    <div>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       {!orderId ? (
         <>
-          <Typography>Checkout</Typography>
-          <TextField
-            required
-            name="cp"
-            variant="outlined"
-            label="Postal Code"
-            onChange={handleChange}
-          />
-          <TextField
-            required
-            name="phone"
-            variant="outlined"
-            label="Phone"
-            onChange={handleChange}
-          />
-          <Button onClick={handleBuy}>Select payment method</Button>
+          <Typography variant="h5" sx={{ mb: "1rem" }}>
+            Checkout
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              width: "20rem",
+            }}
+          >
+            <TextField
+              required
+              name="cp"
+              variant="outlined"
+              label="Postal Code"
+              onChange={handleChange}
+            />
+            <TextField
+              required
+              name="phone"
+              variant="outlined"
+              label="Phone"
+              onChange={handleChange}
+            />
+          </Box>
+          <Button sx={{ mt: "1rem" }} onClick={handleBuy}>
+            Select payment method
+          </Button>
         </>
       ) : (
         <>
-        <h4>Payment completed !</h4>
-        <h4>Your order number is: {orderId}</h4>
-        <Link to="/shop">Continue shopping</Link>
+          <h4>Payment completed !</h4>
+          <h4>Your order number is: {orderId}</h4>
+          <Link to="/shop">Continue shopping</Link>
         </>
       )}
 
-      {/* TODO: Disable MercadoPago Button */}
-
       {preferenceId && (
-        <Wallet initialization={{ preferenceId, redirectMode: "self" }} />
+        <Button sx={{ mt: "1rem" }} disabled>
+          <Wallet initialization={{ preferenceId, redirectMode: "self" }} />
+        </Button>
       )}
-    </div>
+    </Box>
   );
 };
 
